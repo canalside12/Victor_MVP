@@ -1,0 +1,65 @@
+/* -----------------------------------------------------
+   Victor MVP — Global Styles
+   -----------------------------------------------------
+   Contains Tailwind’s base layers and custom Victor tweaks.
+   (You can safely overwrite your current globals.css with this.)
+----------------------------------------------------- */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 🌈 Font imports (match Style Guide v2) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
+
+/* 🔤 Base Style Resets */
+html,
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #F3F4F6; /* Slate Gray background */
+  color: #1F2937; /* Graphite text */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 🧭 Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 🎨 Selection Color (Lavender highlight) */
+::selection {
+  background: #C4B5FD;
+  color: #1F2937;
+}
+
+/* 🧩 Components — Utility Enhancements */
+.victor-card {
+  @apply bg-white shadow-soft rounded-xl p-6 border border-gray-200;
+}
+
+.victor-button-primary {
+  @apply bg-victor-red text-white font-semibold px-4 py-2 rounded-xl hover:bg-[#C8103E] transition;
+}
+
+.victor-button-secondary {
+  @apply bg-lavender text-gray-800 font-medium px-4 py-2 rounded-xl hover:bg-[#A78BFA] transition;
+}
+
+/* 🧠 Markus-specific Styles */
+.markus-panel {
+  @apply bg-white rounded-2xl shadow-medium p-4 border border-gray-200;
+  font-family: 'Inter', sans-serif;
+}
+
+.markus-message {
+  @apply text-sm italic text-gray-500;
+}
+
+/* ✨ Smooth Transitions */
+* {
+  transition: all 0.2s ease-in-out;
+}
