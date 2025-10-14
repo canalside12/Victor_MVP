@@ -1,27 +1,18 @@
 /**
- * Victor MVP — Tailwind Configuration (v1)
- * ----------------------------------------
- * This file defines the color palette, typography, and spacing system
- * based on the Victor MVP Style Guide v2.
- *
- * 🧩 How to Enable Tailwind (once your new laptop is ready):
- * 1️⃣ Open terminal in your /frontend folder.
- * 2️⃣ Run:
- *     npm install -D tailwindcss postcss autoprefixer
- *     npx tailwindcss init -p
- * 3️⃣ Replace the generated tailwind.config.js with this file.
- * 4️⃣ In your global CSS (globals.css), ensure these @tailwind directives exist:
- *     @tailwind base;
- *     @tailwind components;
- *     @tailwind utilities;
+ * Victor MVP — Tailwind Configuration (v1.1)
+ * ------------------------------------------
+ * Updated to support Vercel build paths for the /frontend structure.
+ * Scans all React, TypeScript, and HTML files inside frontend.
  */
 
  /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./layouts/**/*.{js,ts,jsx,tsx}",
+    "./**/*.{html,js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
