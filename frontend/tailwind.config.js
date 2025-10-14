@@ -12,7 +12,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./layouts/**/*.{js,ts,jsx,tsx}",
-    "./**/*.{html,js,ts,jsx,tsx}"
+    "./lib/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
