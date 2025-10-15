@@ -1,16 +1,18 @@
-
-import Link from 'next/link'
-
 export default function Home() {
   return (
-    <main style={{padding:40,fontFamily:'Arial, sans-serif'}}>
-      <h1>Victor — MVP (Frontend)</h1>
-      <p>This is a minimal Next.js starter page for the Victor platform.</p>
-      <ul>
-        <li><Link href="/onboarding">Onboarding (placeholder)</Link></li>
-        <li><Link href="/dashboard">Unified Dashboard (placeholder)</Link></li>
-      </ul>
-      <p>Start the backend too and the frontend will call /api/health for a sanity check.</p>
+    <main className="flex flex-col items-center justify-center min-h-screen bg-slate-gray text-graphite font-sans p-6">
+      <div className="w-full max-w-md victor-card text-center space-y-4">
+        <h1 className="text-2xl font-heading text-graphite">Victor MVP</h1>
+        <p className="text-cool-gray">
+          Home renovation management simplified — powered by Markus AI.
+        </p>
+        <button className="victor-button-primary w-full">
+          Get Started
+        </button>
+        <button className="victor-button-secondary w-full">
+          Learn More
+        </button>
+      </div>
     </main>
-  )
+  );
 }
