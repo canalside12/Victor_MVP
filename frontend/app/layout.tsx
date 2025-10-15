@@ -1,24 +1,27 @@
-"use client";
-export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
-export const revalidate = 0;
-
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+// ---------- Fonts ----------
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 const poppins = Poppins({
-  weight: ["600", "700"],
+  weight: ["400", "600"],
   subsets: ["latin"],
   variable: "--font-poppins",
+  display: "swap",
 });
 
+// ---------- Page Metadata ----------
 export const metadata: Metadata = {
   title: "Victor Platform",
   description: "Home renovation management simplified — powered by Markus AI.",
 };
 
+// ---------- Layout Component ----------
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
-      <body className="bg-slate-gray text-graphite font-sans min-h-screen antialiased">
+      <body className="font-sans bg-slate-gray text-graphite antialiased">
         {children}
       </body>
     </html>
