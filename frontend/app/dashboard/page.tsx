@@ -7,9 +7,14 @@ import { useState } from "react";
 import { Menu, Home, FolderKanban, MessageSquare } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ProjectModal from "@/components/ProjectModal";
+import { useEffect } from "react";
 
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  useEffect(() => {
+  // this ensures client-side hydration
+  console.log("Dashboard hydrated");
+}, []);
 
   return (
     <div className="flex min-h-screen bg-slate-gray text-graphite">
