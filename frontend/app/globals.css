@@ -2,7 +2,6 @@
    Victor MVP — Global Styles
    -----------------------------------------------------
    Contains Tailwind’s base layers and custom Victor tweaks.
-   (You can safely overwrite your current globals.css with this.)
 ----------------------------------------------------- */
 
 @tailwind base;
@@ -12,15 +11,26 @@
 /* 🌈 Font imports (match Style Guide v2) */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Poppins:wght@600;700&display=swap');
 
+/* 🎨 Custom Colors */
+:root {
+  --victor-red: #E11D48;
+  --lavender-mist: #D6BCFA;
+  --slate-gray: #F3F4F6;
+  --graphite: #1F2937;
+  --cool-gray: #6B7280;
+  --success-green: #16A34A;
+  --error-red: #F87171;
+}
+
 /* 🔤 Base Style Resets */
 html,
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #F3F4F6; /* Slate Gray background */
-  color: #1F2937; /* Graphite text */
+  background-color: var(--slate-gray); /* Slate Gray background */
+  color: var(--graphite); /* Graphite text */
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -32,34 +42,49 @@ html {
 
 /* 🎨 Selection Color (Lavender highlight) */
 ::selection {
-  background: #C4B5FD;
-  color: #1F2937;
+  background: var(--lavender-mist);
+  color: var(--graphite);
 }
 
 /* 🧩 Components — Utility Enhancements */
-.victor-card {
-  @apply bg-white shadow-soft rounded-xl p-6 border border-gray-200;
+@layer components {
+  .victor-card {
+    @apply bg-white shadow-soft rounded-xl p-6 border border-cool-gray/20;
+  }
+
+  .victor-button-primary {
+    @apply bg-victor-red text-white font-semibold px-4 py-2 rounded-xl hover:bg-[#C8103E] transition-colors;
+  }
+
+  .victor-button-secondary {
+    @apply bg-lavender-mist text-graphite font-medium px-4 py-2 rounded-xl hover:bg-[#A78BFA] transition-colors;
+  }
+
+  .markus-panel {
+    @apply bg-white rounded-xl shadow-soft p-4 border border-cool-gray/20;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .markus-message {
+    @apply text-sm italic text-cool-gray;
+  }
+
+  .shadow-soft {
+    @apply shadow-md hover:shadow-lg transition-shadow;
+  }
+
+  .font-heading {
+    @apply font-poppins font-bold;
+  }
+
+  .font-sans {
+    @apply font-inter;
+  }
 }
 
-.victor-button-primary {
-  @apply bg-victor-red text-white font-semibold px-4 py-2 rounded-xl hover:bg-[#C8103E] transition;
-}
-
-.victor-button-secondary {
-  @apply bg-lavender text-gray-800 font-medium px-4 py-2 rounded-xl hover:bg-[#A78BFA] transition;
-}
-
-/* 🧠 Markus-specific Styles */
+/* ✨ Specific Transitions */
+button,
+.victor-card,
 .markus-panel {
-  @apply bg-white rounded-2xl shadow-medium p-4 border border-gray-200;
-  font-family: 'Inter', sans-serif;
-}
-
-.markus-message {
-  @apply text-sm italic text-gray-500;
-}
-
-/* ✨ Smooth Transitions */
-* {
-  transition: all 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
