@@ -1,9 +1,11 @@
-export const metadata = { title: "Victor" };
+"use client";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <body>{children}</body>
-    </html>
-  );
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
 }
