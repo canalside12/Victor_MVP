@@ -5,7 +5,7 @@
  * Scans all React, TypeScript, and HTML files inside frontend.
  */
 
- /** @type {import('tailwindcss').Config} */
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx}",
@@ -17,13 +17,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'victor-red': 'var(--victor-red)', // #E11D48
-        'lavender-mist': 'var(--lavender-mist)', // #D6BCFA
-        'slate-gray': 'var(--slate-gray)', // #F3F4F6
-        'graphite': 'var(--graphite)', // #1F2937
-        'cool-gray': 'var(--cool-gray)', // #6B7280
-        'success-green': 'var(--success-green)', // #16A34A
-        'error-red': 'var(--error-red)', // #F87171
+        'victor-red': ({ opacityValue }) => opacityValue ? `rgba(225, 29, 72, ${opacityValue})` : '#E11D48',
+        'lavender-mist': ({ opacityValue }) => opacityValue ? `rgba(214, 188, 250, ${opacityValue})` : '#D6BCFA',
+        'slate-gray': ({ opacityValue }) => opacityValue ? `rgba(243, 244, 246, ${opacityValue})` : '#F3F4F6',
+        'graphite': ({ opacityValue }) => opacityValue ? `rgba(31, 41, 55, ${opacityValue})` : '#1F2937',
+        'cool-gray': ({ opacityValue }) => opacityValue ? `rgba(107, 114, 128, ${opacityValue})` : '#6B7280',
+        'success-green': ({ opacityValue }) => opacityValue ? `rgba(22, 163, 74, ${opacityValue})` : '#16A34A',
+        'error-red': ({ opacityValue }) => opacityValue ? `rgba(248, 113, 113, ${opacityValue})` : '#F87171',
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],

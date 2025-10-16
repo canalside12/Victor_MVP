@@ -6,6 +6,7 @@ export default function Projects() {
   return (
     <div className="flex min-h-screen bg-slate-gray text-graphite p-6">
       <h1 className="text-2xl heading">Projects Page</h1>
+      <p className="text-sans">This is a placeholder for the Projects page.</p>
     </div>
   );
 }
