@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 
-// ---------- Fonts ----------
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -15,13 +14,11 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// ---------- Page Metadata ----------
 export const metadata: Metadata = {
   title: "Victor Platform",
   description: "Home renovation management simplified — powered by Markus AI.",
 };
 
-// ---------- Layout Component ----------
 export default function RootLayout({
   children,
 }: {
@@ -29,6 +26,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${poppins.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            if (typeof lockdown !== 'undefined') {
+              console.log('SES lockdown detected, disabling...');
+              lockdown = undefined;
+            }
+          `,
+        }} />
+      </head>
       <body className="font-sans bg-slate-gray text-graphite antialiased">
         {children}
       </body>

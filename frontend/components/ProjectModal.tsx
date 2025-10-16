@@ -10,14 +10,14 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean; onC
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("New project:", { name, description });
+    console.log("Save button clicked", { name, description });
     onClose();
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl shadow-medium w-full max-w-md p-6 space-y-4">
-        <h2 className="text-lg font-heading text-graphite">Create New Project</h2>
+        <h2 className="text-lg heading text-graphite">Create New Project</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="text"
@@ -33,7 +33,14 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean; onC
             className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-victor-red"
           />
           <div className="flex justify-end gap-3">
-            <button type="button" onClick={onClose} className="victor-button-secondary">
+            <button
+              type="button"
+              onClick={() => {
+                console.log("Cancel button clicked");
+                onClose();
+              }}
+              className="victor-button-secondary"
+            >
               Cancel
             </button>
             <button type="submit" className="victor-button-primary">
