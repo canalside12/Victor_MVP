@@ -17,13 +17,13 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'victor-red': '#E11D48',
-        'lavender': '#C4B5FD',
-        'slate-gray': '#F3F4F6',
-        'graphite': '#1F2937',
-        'cool-gray': '#6B7280',
-        'success-green': '#16A34A',
-        'error-red': '#F87171',
+        'victor-red': 'var(--victor-red)', // #E11D48
+        'lavender-mist': 'var(--lavender-mist)', // #D6BCFA
+        'slate-gray': 'var(--slate-gray)', // #F3F4F6
+        'graphite': 'var(--graphite)', // #1F2937
+        'cool-gray': 'var(--cool-gray)', // #6B7280
+        'success-green': 'var(--success-green)', // #16A34A
+        'error-red': 'var(--error-red)', // #F87171
       },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
