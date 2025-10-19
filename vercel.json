@@ -1,0 +1,16 @@
+{
+  "functions": {
+    "app/dashboard/**": {
+      "maxDuration": 10,
+      "runtime": "vercel-node@20.x"
+    },
+    "app/projects/**": {
+      "maxDuration": 10,
+      "runtime": "vercel-node@20.x"
+    },
+    "app/messages/**": {
+      "maxDuration": 10,
+      "runtime": "vercel-node@20.x"
+    }
+  }
+}
