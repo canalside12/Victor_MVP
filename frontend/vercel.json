@@ -2,15 +2,15 @@
   "functions": {
     "app/dashboard/**": {
       "maxDuration": 10,
-      "runtime": "nodejs18.x"
+      "runtime": "vercel-node@20.x"
     },
     "app/projects/**": {
       "maxDuration": 10,
-      "runtime": "nodejs18.x"
+      "runtime": "vercel-node@20.x"
     },
     "app/messages/**": {
       "maxDuration": 10,
-      "runtime": "nodejs18.x"
+      "runtime": "vercel-node@20.x"
     }
   }
 }
