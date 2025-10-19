@@ -1,17 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setError(null);
+
     console.log("Save button clicked", { name, description });
-    onClose();
+
+    const { data, error } = await supabase.from("projects").insert([
+      { name, description }
+    ]);
+
+    setLoading(false);
+
+    if (error) {
+      console.error("Error inserting project:", error);
+      setError("Failed to save project. Please try again.");
+    } else {
+      console.log("Project saved successfully:", data);
+      setName("");
+      setDescription("");
+      onClose();
+    }
   };
 
   return (
@@ -25,6 +46,7 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean; onC
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-victor-red"
+            required
           />
           <textarea
             placeholder="Description"
@@ -32,19 +54,18 @@ export default function ProjectModal({ isOpen, onClose }: { isOpen: boolean; onC
             onChange={(e) => setDescription(e.target.value)}
             className="w-full border border-gray-300 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-victor-red"
           />
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <div className="flex justify-end gap-3">
             <button
               type="button"
-              onClick={() => {
-                console.log("Cancel button clicked");
-                onClose();
-              }}
+              onClick={onClose}
               className="victor-button-secondary"
+              disabled={loading}
             >
               Cancel
             </button>
-            <button type="submit" className="victor-button-primary">
-              Save
+            <button type="submit" className="victor-button-primary" disabled={loading}>
+              {loading ? "Saving..." : "Save"}
             </button>
           </div>
         </form>
