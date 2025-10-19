@@ -1,6 +1,6 @@
-export const dynamic = "force-dynamic"; // <- ensures client-side interactivity
-
 "use client";
+
+export const dynamic = "force-dynamic"; // ensures client-side interactivity
 
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabaseClient";
@@ -17,7 +17,6 @@ export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Fetch projects from Supabase
   const fetchProjects = async () => {
     setLoading(true);
     const { data, error } = await supabase.from("projects").select("*");

@@ -1,6 +1,6 @@
-"use client";
+"use client"; // must be first line
 
-import { useState } from "react";
+import { FC, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 
 interface ProjectModalProps {
@@ -8,73 +8,71 @@ interface ProjectModalProps {
   onClose: () => void;
 }
 
-export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [loading, setLoading] = useState(false);
+const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose }) => {
+  const [projectName, setProjectName] = useState("");
+  const [projectDescription, setProjectDescription] = useState("");
+  const [saving, setSaving] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
+  const handleSave = async () => {
+    if (!projectName) return alert("Project name is required");
 
-    const { error } = await supabase.from("projects").insert([
-      {
-        name,
-        description,
-      },
-    ]);
+    setSaving(true);
+    const { error } = await supabase
+      .from("projects")
+      .insert([{ name: projectName, description: projectDescription }]);
 
     if (error) {
-      console.error("Error creating project:", error);
+      console.error("Error saving project:", error.message);
+      alert("Failed to save project");
     } else {
-      setName("");
-      setDescription("");
+      setProjectName("");
+      setProjectDescription("");
       onClose();
     }
-
-    setLoading(false);
+    setSaving(false);
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded shadow-md w-full max-w-md">
-        <h2 className="text-xl font-bold mb-4">Add New Project</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Project Name"
-            className="w-full border px-3 py-2 mb-3 rounded"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-          <textarea
-            placeholder="Project Description"
-            className="w-full border px-3 py-2 mb-3 rounded"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-          <div className="flex justify-end gap-2">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 rounded border"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 rounded bg-blue-600 text-white"
-              disabled={loading}
-            >
-              {loading ? "Saving..." : "Save"}
-            </button>
-          </div>
-        </form>
+      <div className="bg-white rounded-lg p-6 w-full max-w-md">
+        <h2 className="text-xl font-bold mb-4">New Project</h2>
+
+        <input
+          type="text"
+          placeholder="Project Name"
+          className="w-full border p-2 mb-3 rounded"
+          value={projectName}
+          onChange={(e) => setProjectName(e.target.value)}
+        />
+
+        <textarea
+          placeholder="Project Description"
+          className="w-full border p-2 mb-3 rounded"
+          value={projectDescription}
+          onChange={(e) => setProjectDescription(e.target.value)}
+        />
+
+        <div className="flex justify-end space-x-2">
+          <button
+            className="px-4 py-2 bg-gray-300 rounded"
+            onClick={onClose}
+            disabled={saving}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-4 py-2 bg-blue-600 text-white rounded"
+            onClick={handleSave}
+            disabled={saving}
+          >
+            {saving ? "Saving..." : "Save"}
+          </button>
+        </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProjectModal;
