@@ -7,24 +7,21 @@ import ProjectModal from "../../components/ProjectModal";
 export const dynamic = "force-dynamic";
 
 interface Project {
-  id: number;
+  id: string;
   name: string;
   description: string;
 }
 
 export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchProjects = async () => {
     setLoading(true);
     const { data, error } = await supabase.from("projects").select("*");
-    if (error) {
-      console.error("Error fetching projects:", error);
-    } else {
-      setProjects(data as Project[]);
-    }
+    if (error) console.error("Error fetching projects:", error);
+    else setProjects(data as Project[]);
     setLoading(false);
   };
 
@@ -34,7 +31,7 @@ export default function DashboardPage() {
 
   const handleModalClose = () => {
     setIsModalOpen(false);
-    setTimeout(fetchProjects, 100); // slight delay to prevent hydration issues
+    fetchProjects(); // refresh list
   };
 
   return (
@@ -54,19 +51,16 @@ export default function DashboardPage() {
         <p>No projects found.</p>
       ) : (
         <ul>
-          {projects.map((project) => (
-            <li key={project.id} className="mb-2 border p-2 rounded">
-              <h2 className="font-semibold">{project.name}</h2>
-              <p>{project.description}</p>
+          {projects.map((p) => (
+            <li key={p.id} className="mb-2 border p-2 rounded">
+              <h2 className="font-semibold">{p.name}</h2>
+              <p>{p.description}</p>
             </li>
           ))}
         </ul>
       )}
 
-      <ProjectModal
-  isOpen={isModalOpen}
-  onClose={() => {
-    setIsModalOpen(false);
-    fetchProjects();
-  }}
-/>
+      <ProjectModal isOpen={isModalOpen} onClose={handleModalClose} />
+    </div>
+  );
+}

@@ -1,7 +1,7 @@
 // components/ProjectModal.tsx
 "use client";
 
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 
 interface ProjectModalProps {
@@ -13,32 +13,28 @@ const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose }) => {
   const [projectName, setProjectName] = useState("");
   const [projectDescription, setProjectDescription] = useState("");
   const [saving, setSaving] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  // Ensure we are running on client
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!isOpen || !mounted) return null;
+  if (!isOpen) return null;
 
   const handleSave = async () => {
     if (!projectName) return alert("Project name is required");
 
     setSaving(true);
+
     const { error } = await supabase
       .from("projects")
       .insert([{ name: projectName, description: projectDescription }]);
 
+    setSaving(false);
+
     if (error) {
-      console.error("Error saving project:", error.message);
+      console.error(error);
       alert("Failed to save project");
     } else {
       setProjectName("");
       setProjectDescription("");
       onClose();
     }
-    setSaving(false);
   };
 
   return (
