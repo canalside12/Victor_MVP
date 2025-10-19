@@ -6,70 +6,69 @@ import { supabase } from "../lib/supabaseClient";
 interface ProjectModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onProjectAdded: () => void; // callback to refresh projects in Dashboard
 }
 
-export default function ProjectModal({ isOpen, onClose }: ProjectModalProps) {
+export default function ProjectModal({ isOpen, onClose, onProjectAdded }: ProjectModalProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  if (!isOpen) return null;
+  if (!isOpen) return null; // modal hidden
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
-    const { data, error } = await supabase
-      .from("projects")
-      .insert([{ name, description }]);
-
-    if (error) {
-      setError(error.message);
-    } else {
-      setName("");
-      setDescription("");
-      onClose();
+    try {
+      const { error } = await supabase.from("projects").insert([{ name, description }]);
+      if (error) {
+        console.error("Error adding project:", error.message);
+      } else {
+        setName("");
+        setDescription("");
+        onProjectAdded(); // refresh projects in Dashboard
+        onClose(); // close modal
+      }
+    } catch (err) {
+      console.error("Unexpected error adding project:", err);
     }
+
     setLoading(false);
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-      <div className="bg-white p-6 rounded shadow-lg w-96">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">Add New Project</h2>
-
-        {error && <p className="text-red-600 mb-2">{error}</p>}
-
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Project Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="border p-2 mb-2 w-full rounded"
+            className="w-full mb-2 p-2 border rounded"
             required
           />
           <textarea
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="border p-2 mb-4 w-full rounded"
+            className="w-full mb-4 p-2 border rounded"
             required
           />
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end space-x-2">
             <button
               type="button"
-              className="px-4 py-2 rounded border"
               onClick={onClose}
+              className="px-4 py-2 bg-gray-300 rounded"
               disabled={loading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 rounded bg-blue-600 text-white"
+              className="px-4 py-2 bg-blue-600 text-white rounded"
               disabled={loading}
             >
               {loading ? "Adding..." : "Add Project"}

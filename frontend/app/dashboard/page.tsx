@@ -17,11 +17,15 @@ export default function DashboardPage() {
 
   const fetchProjects = async () => {
     setLoading(true);
-    const { data, error } = await supabase.from("projects").select("*");
-    if (error) {
-      console.error("Error fetching projects:", error);
-    } else {
-      setProjects(data as Project[]);
+    try {
+      const { data, error } = await supabase.from("projects").select("*");
+      if (error) {
+        console.error("Error fetching projects:", error.message);
+      } else {
+        setProjects(data as Project[]);
+      }
+    } catch (err) {
+      console.error("Unexpected error fetching projects:", err);
     }
     setLoading(false);
   };
@@ -58,10 +62,8 @@ export default function DashboardPage() {
 
       <ProjectModal
         isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          fetchProjects();
-        }}
+        onClose={() => setIsModalOpen(false)}
+        onProjectAdded={fetchProjects} // refresh dashboard after adding
       />
     </div>
   );
