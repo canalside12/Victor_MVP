@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"; // <- ensures client-side interactivity
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,17 +17,14 @@ export default function DashboardPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  // Fetch projects from Supabase
   const fetchProjects = async () => {
     setLoading(true);
-    try {
-      const { data, error } = await supabase.from("projects").select("*");
-      if (error) {
-        console.error("Error fetching projects:", error.message);
-      } else {
-        setProjects(data as Project[]);
-      }
-    } catch (err) {
-      console.error("Unexpected error fetching projects:", err);
+    const { data, error } = await supabase.from("projects").select("*");
+    if (error) {
+      console.error("Error fetching projects:", error);
+    } else {
+      setProjects(data as Project[]);
     }
     setLoading(false);
   };
@@ -62,8 +61,10 @@ export default function DashboardPage() {
 
       <ProjectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        onProjectAdded={fetchProjects} // refresh dashboard after adding
+        onClose={() => {
+          setIsModalOpen(false);
+          fetchProjects(); // refresh after closing modal
+        }}
       />
     </div>
   );
