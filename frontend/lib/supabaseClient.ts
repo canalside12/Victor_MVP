@@ -1,8 +1,14 @@
+// lib/supabaseClient.ts
+"use client"; // ensures this runs only on client-side
+
 import { createClient } from "@supabase/supabase-js";
 
-// Use environment variables from Vercel (these must be set in your project settings)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+let supabase;
 
-// Create and export a single Supabase client instance
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (typeof window !== "undefined") {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  supabase = createClient(supabaseUrl, supabaseAnonKey);
+}
+
+export { supabase };
