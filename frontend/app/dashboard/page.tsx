@@ -63,7 +63,10 @@ export default function DashboardPage() {
         </ul>
       )}
 
-      <ProjectModal isOpen={isModalOpen} onClose={handleModalClose} />
-    </div>
-  );
-}
+      <ProjectModal
+  isOpen={isModalOpen}
+  onClose={() => {
+    setIsModalOpen(false);
+    fetchProjects();
+  }}
+/>
