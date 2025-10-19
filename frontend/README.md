@@ -1,5 +1,5 @@
 
-Victor* Frontend
+Victor Frontend
 ----------------
 
 This is a minimal Next.js + TypeScript starter. To run locally:
