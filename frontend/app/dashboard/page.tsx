@@ -1,10 +1,10 @@
 "use client";
 
-export const dynamic = "force-dynamic"; // ensures client-side interactivity
-
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import ProjectModal from "../../components/ProjectModal";
+
+export const dynamic = "force-dynamic";
 
 interface Project {
   id: number;
@@ -32,6 +32,11 @@ export default function DashboardPage() {
     fetchProjects();
   }, []);
 
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setTimeout(fetchProjects, 100); // slight delay to prevent hydration issues
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Dashboard</h1>
@@ -58,13 +63,7 @@ export default function DashboardPage() {
         </ul>
       )}
 
-      <ProjectModal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          fetchProjects(); // refresh after closing modal
-        }}
-      />
+      <ProjectModal isOpen={isModalOpen} onClose={handleModalClose} />
     </div>
   );
 }

@@ -1,7 +1,8 @@
-"use client"; // must be first line
+"use client";
 
 import { FC, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
+import { createPortal } from "react-dom";
 
 interface ProjectModalProps {
   isOpen: boolean;
@@ -34,7 +35,7 @@ const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose }) => {
     setSaving(false);
   };
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
         <h2 className="text-xl font-bold mb-4">New Project</h2>
@@ -71,7 +72,8 @@ const ProjectModal: FC<ProjectModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
