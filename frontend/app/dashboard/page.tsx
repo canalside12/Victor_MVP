@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import ProjectModal from "../../components/ProjectModal";
+import { useRouter } from "next/navigation"; // ✅ new import
 
 export const dynamic = "force-dynamic";
 
 interface Project {
-  id: string; 
+  id: string;
   name: string;
   description: string | null;
 }
@@ -16,6 +17,7 @@ export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter(); // ✅ initialize router
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -52,7 +54,11 @@ export default function DashboardPage() {
       ) : (
         <ul>
           {projects.map((project) => (
-            <li key={project.id} className="mb-2 border p-2 rounded">
+            <li
+              key={project.id}
+              className="mb-2 border p-2 rounded cursor-pointer hover:bg-gray-50"
+              onClick={() => router.push(`/dashboard/projects/${project.id}`)} // ✅ NEW: navigate to details
+            >
               <h2 className="font-semibold">{project.name}</h2>
               <p>{project.description || "No description"}</p>
             </li>
