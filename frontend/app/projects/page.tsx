@@ -1,69 +1,62 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
 
 interface Project {
   id: string;
   name: string;
-  description: string | null;
+  description?: string | null;
   status?: string | null;
-  address?: string | null;
-  budget?: number | null;
-  notes?: string | null;
-  created_at?: string;
 }
 
-export default function ProjectDetailsPage() {
-  const { id } = useParams();
-  const router = useRouter();
-  const [project, setProject] = useState<Project | null>(null);
+export default function ProjectsPage() {
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
-    const fetchProject = async () => {
+    const fetchProjects = async () => {
       const { data, error } = await supabase
         .from("projects")
         .select("*")
-        .eq("id", id)
-        .single();
+        .order("created_at", { ascending: false });
 
       if (error) {
-        console.error("Error fetching project:", error);
+        console.error("Error fetching projects:", error);
       } else {
-        setProject(data);
+        setProjects(data || []);
       }
       setLoading(false);
     };
 
-    fetchProject();
-  }, [id]);
+    fetchProjects();
+  }, []);
 
-  if (loading) return <p className="p-6">Loading project details...</p>;
-  if (!project) return <p className="p-6">Project not found.</p>;
+  if (loading) return <p className="p-6">Loading projects...</p>;
+
+  if (projects.length === 0)
+    return <p className="p-6">No projects found. Create one to get started!</p>;
 
   return (
-    <div className="p-6">
-      <button
-        className="mb-4 text-blue-600 underline"
-        onClick={() => router.back()}
-      >
-        ← Back to Dashboard
-      </button>
-
-      <h1 className="text-2xl font-bold mb-2">{project.name}</h1>
-      <p className="mb-4">{project.description || "No description"}</p>
-
-      <div className="space-y-2">
-        <p><strong>Status:</strong> {project.status || "Pending"}</p>
-        <p><strong>Address:</strong> {project.address || "N/A"}</p>
-        <p><strong>Budget:</strong> {project.budget ? `$${project.budget}` : "N/A"}</p>
-        <p><strong>Notes:</strong> {project.notes || "None"}</p>
-        <p className="text-gray-500 text-sm">
-          Created at: {new Date(project.created_at || "").toLocaleString()}
-        </p>
+    <div className="p-6 space-y-4">
+      <h1 className="text-2xl font-bold mb-4">Projects</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {projects.map((project) => (
+          <Link
+            key={project.id}
+            href={`/projects/${project.id}`}
+            className="p-4 border rounded-lg shadow hover:bg-gray-50 transition"
+          >
+            <h2 className="text-xl font-semibold">{project.name}</h2>
+            <p className="text-gray-600">
+              {project.description || "No description"}
+            </p>
+            <p className="mt-2 text-sm text-gray-500">
+              Status: {project.status || "Pending"}
+            </p>
+          </Link>
+        ))}
       </div>
     </div>
   );
