@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { supabase } from "../../lib/supabaseClient";
 import ProjectModal from "../../components/ProjectModal";
-import { useRouter } from "next/navigation"; // ✅ new import
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +17,6 @@ export default function DashboardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const router = useRouter(); // ✅ initialize router
 
   const fetchProjects = async () => {
     setLoading(true);
@@ -56,11 +55,14 @@ export default function DashboardPage() {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="mb-2 border p-2 rounded cursor-pointer hover:bg-gray-50"
-              onClick={() => router.push(`/dashboard/projects/${project.id}`)} // ✅ NEW: navigate to details
+              className="mb-2 border p-2 rounded hover:bg-gray-50 transition"
             >
-              <h2 className="font-semibold">{project.name}</h2>
-              <p>{project.description || "No description"}</p>
+              <Link href={`/projects/${project.id}`}>
+                <h2 className="font-semibold text-blue-600 hover:underline">
+                  {project.name}
+                </h2>
+                <p>{project.description || "No description"}</p>
+              </Link>
             </li>
           ))}
         </ul>
@@ -69,7 +71,7 @@ export default function DashboardPage() {
       {/* Modal */}
       <ProjectModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)} // only close for now
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );
